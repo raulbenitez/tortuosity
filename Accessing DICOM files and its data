@@ -1,0 +1,20 @@
+cwd = os.getcwd()
+data_path=cwd
+g=glob.glob(data_path+'/' + '*.dcm')
+g
+l=[] # We add all the pixel values from all the slices to a list
+for n in g:
+    ds = pydicom.dcmread(n)
+    image2D=ds.pixel_array
+    l.append(image2D.astype(np.int16))
+print('DICOM DESCRIPTION:')
+print(' -Series Description: %s' %ds.SeriesDescription)
+print(' -Modality: %s' %ds.Modality)
+print(' -Patient Sex: %s' %ds.PatientSex)
+print(' -Patient ID: %s' %ds.PatientID)
+print(' -Patient Name: %s' %ds.PatientName)
+print(' -Body Part Examined: %s' %ds.BodyPartExamined)
+print(' -Pixel Bandwidth: %s' %ds.PixelBandwidth)
+print(' -Pixel Spacing: %s' %ds.PixelSpacing) # it gives us the distance in mm between the centers of adjacent pixels [rows,columns]
+print('\n')
+pixspac=ds.PixelSpacing[0]
