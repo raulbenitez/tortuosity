@@ -1,0 +1,25 @@
+from skimage import img_as_float
+I_train_float = img_as_float(I_train) 
+
+# reshape training image as 1d array:
+v_I_train = I_train_float.reshape(I_train_float.shape[0]*I_train_float.shape[1],1).astype(np.float) 
+
+# Fit a Kmeans clustering model with two clusters using training image:
+kmeans= KMeans(n_clusters=3, random_state=0).fit(v_I_train)
+
+v_kmeans = kmeans.predict(v_I_train)
+I_kmeans = np.array(v_kmeans).reshape(l[2].shape[0],l[2].shape[1]).astype(np.uint8) # Shape back result as image 
+
+
+fig = plt.figure(figsize=(30, 30))
+gs = gridspec.GridSpec(1, 2)
+
+ax1 = fig.add_subplot(gs[0,0])
+ax1.imshow(I_train_float, cmap=plt.cm.gray)
+ax1.set_title('Original Image')
+ax1.set_axis_off()
+
+ax2 = fig.add_subplot(gs[0,1])
+ax2.imshow(I_kmeans, cmap=plt.cm.gray)
+ax2.set_title('Vessels segmentation (Kmeans)')
+ax2.set_axis_off()
