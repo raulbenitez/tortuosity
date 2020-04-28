@@ -1,0 +1,61 @@
+_,_,degrees1 = skeleton_to_csgraph(aortamod,spacing=pixspac)
+endpoints1=degrees1==1
+
+_,_,degrees2 = skeleton_to_csgraph(iliac11,spacing=pixspac)
+endpoints2=degrees2==1
+
+_,_,degrees3 = skeleton_to_csgraph(iliac22,spacing=pixspac)
+endpoints3=degrees3==1
+
+analysys_points=endpoints1+endpoints2+endpoints3
+
+def getstartingpoint(branch):
+    l=0
+    p=[]
+    for i in range(len(branch)):
+        for j in range(len(branch)):
+            if l==0:
+                if branch[i][j]==1:
+                    l+=1
+                    p.append(i)
+                    p.append(j)
+            else:  
+                branch[i][j]=0    
+    return branch,p
+
+def getfinalpoint(branch):
+    indexi=np.arange(branch.shape[0]-1,0,-1) #we will start checking the image from the botom of the image to get the first 11 cm
+    indexj=np.arange(branch.shape[0]-1,0,-1)
+    l=0
+    p=[]
+    for i in indexi:
+        for j in indexj:
+            if l==0:
+                if branch[i][j]==1:
+                    l+=1
+                    p.append(i)
+                    p.append(j)
+            else:  
+                branch[i][j]=0    
+    return branch,p
+
+p1x=getstartingpoint(endpoints1)[1][0]
+p1y=getstartingpoint(endpoints1)[1][1]
+p2x=getfinalpoint(endpoints2)[1][0]
+p2y=getfinalpoint(endpoints2)[1][1]
+p3x=getfinalpoint(endpoints3)[1][0]
+p3y=getfinalpoint(endpoints3)[1][1]
+p4x=getstartingpoint(junctionpoint)[1][0]
+p4y=getstartingpoint(junctionpoint)[1][1]
+
+imagepoint1=getstartingpoint(endpoints1)[0]
+imagepoint2=getfinalpoint(endpoints2)[0]
+imagepoint3=getfinalpoint(endpoints3)[0]
+imagepoint4=junctionpoint
+
+analysys_points=imagepoint1+imagepoint2+imagepoint3+imagepoint4
+
+fig, ax = plt.subplots(figsize=(10,10))
+draw.overlay_skeleton_2d(l[2], analysys_points, dilate=4, axes=ax)
+plt.show()
+plt.title('End points and junction points of the aorta and the iliac arteries', size=15)
