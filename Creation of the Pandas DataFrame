@@ -1,0 +1,15 @@
+# Using the function table previously defined
+
+s1l=round(table(aortamod)['branch-distance'][0],2)
+s1_t1=round(table(aortamod)['Tortuosity_1'][0],2)
+s1_t2=round(table(aortamod)['Tortuosity_2'][0],2)
+s2l=round(table(iliac11)['branch-distance'][0],2)
+s2_t1=round(table(iliac11)['Tortuosity_1'][0],2)
+s2_t2=round(table(iliac11)['Tortuosity_2'][0],2)
+s3l=round(table(iliac22)['branch-distance'][0],2)
+s3_t1=round(table(iliac22)['Tortuosity_1'][0],2)
+s3_t2=round(table(iliac22)['Tortuosity_2'][0],2)
+
+data={'Patient ID':[ds.PatientID],'p1x':[p1x],'p1y':[p1y],'p2x':[p2x],'p2y':[p2y],'p3x':[p3x],'p3y':[p3y],'p4x':[p4x],'p4y':[p4y],'Aorta-l':[s1l],'Aorta_t1':[s1_t1],'Aorta_t2':[s1_t2],'R-Iliac-l':[s2l],'R-Iliac_t1':[s2_t1],'R-Iliac_t2':[s2_t2],'L-Iliac-l':[s3l],'L-Iliac_t1':[s3_t1],'L_Iliac_t2':[s3_t2],}
+df = pd.DataFrame(data)
+df.index+=1
